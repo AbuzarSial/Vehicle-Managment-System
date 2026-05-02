@@ -1,0 +1,4 @@
+/* App global styles (additional to Tailwind) */
+@layer utilities {
+  .app-container { @apply max-w-7xl mx-auto px-4 }
+}
