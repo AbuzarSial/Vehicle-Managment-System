@@ -24,5 +24,9 @@ class Settings(BaseSettings):
     # Comma-separated extra browser origins for CORS (e.g. https://your-app.vercel.app)
     CORS_ALLOW_ORIGINS: str = ""
 
+    # Optional regex so every Vercel preview URL can call the API without listing each branch URL.
+    # Example: https://.*\.vercel\.app
+    CORS_ALLOW_ORIGIN_REGEX: str = ""
+
 
 settings = Settings()
