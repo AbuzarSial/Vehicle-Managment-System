@@ -1,6 +1,8 @@
 {
-  "dependencies": {
-    "@tailwindcss/vite": "^4.2.4",
-    "tailwindcss": "^4.2.4"
+  "name": "vehicle-management-system",
+  "private": true,
+  "description": "Monorepo root — frontend lives in VMS/frontend (Vite). Vercel reads vercel.json here when Root Directory is empty.",
+  "scripts": {
+    "build": "cd VMS/frontend && npm ci && npm run build"
   }
 }

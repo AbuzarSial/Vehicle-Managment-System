@@ -325,13 +325,20 @@ cd VMS/frontend && npm run build
 2. **Backend:** Set **`DATABASE_URL=postgresql+psycopg://…`** in the environment where you run FastAPI (Railway, Render, Fly.io, a VPS, etc.). Vercel is optimized for static sites and serverless functions; this repo’s API is a normal ASGI app — host it where long-lived Python processes are supported.
 3. **CORS:** Set **`CORS_ALLOW_ORIGIN_REGEX`** to `https://.*\.vercel\.app` on the API so **every PR preview** and production deployment on `*.vercel.app` can call the backend. Alternatively (or additionally), list fixed origins in **`CORS_ALLOW_ORIGINS`**.
 4. **Frontend on Vercel:** In [Vercel](https://vercel.com) → **Add New…** → **Project** → import your GitHub repo **`Vehicle-Managment-System`** (or fork).
-   - **Root Directory:** `VMS/frontend` (required — the Vite app lives here, not at the repo root).
-   - **Framework Preset:** Vite (auto-detected). Build: `npm run build`, output: `dist` (matches **`vercel.json`**).
+   - **Root Directory:** Either leave it **empty** (recommended for fewer mistakes) or set **`VMS/frontend`**.
+     - **Empty:** Vercel uses the repo-root **`vercel.json`**, which installs/builds **`VMS/frontend`** and publishes **`VMS/frontend/dist`** (SPA rewrites included).
+     - **`VMS/frontend`:** Uses **`VMS/frontend/vercel.json`** (SPA fallback only); Vite preset supplies **`npm run build`** → **`dist`**.
+   - **Framework Preset:** **Other** or leave default when Root Directory is **empty** (root **`vercel.json`** already defines install/build/output). When Root Directory is **`VMS/frontend`**, choose **Vite**.
+   - **Important:** Under Project → Settings → **Build & Development**, if **Build Command**, **Output Directory**, or **Install Command** were overridden manually, click **Reset** or align them with this repo — dashboard overrides beat **`vercel.json`** and often cause **404** (wrong folder deployed).
    - **Environment variables** (Project → Settings → Environment Variables):
      - **`VITE_API_BASE_URL`** = your public FastAPI origin, e.g. `https://your-api.onrender.com` (no trailing slash, no `/api` suffix). Apply to **Production**, **Preview**, and **Development** as needed so PR previews call the same API.
      - Optional: **`VITE_APP_NAME`**.
    - Save and deploy. **Pull Request previews** are created automatically once the GitHub integration is enabled (each PR gets its own `*.vercel.app` URL).
 5. **Smoke-test:** Open the deployed URL, check browser DevTools → Network: API calls should go to **`VITE_API_BASE_URL`**. If you see CORS errors, confirm **`CORS_ALLOW_ORIGIN_REGEX`** or **`CORS_ALLOW_ORIGINS`** on the backend includes that frontend origin.
+
+**404 on Vercel:** (a) **Dashboard overrides** — reset Build / Output / Install commands so **`vercel.json`** applies. (b) **Root Directory** — empty uses repo-root **`vercel.json`** + **`VMS/frontend/dist`**; **`VMS/frontend`** uses the inner **`vercel.json`** + **`dist`**. (c) **SPA deep links** — **`rewrites`** send non-file paths to **`/index.html`**. The repo root **`package.json`** defines **`npm run build`** → **`VMS/frontend`** so a default Vercel build also targets the right app. Redeploy after fixes.
+
+**CLI deploy (optional):** From the repo root, after `npx vercel login`: `npx vercel --prod` (uses root **`vercel.json`**). From **`VMS/frontend`** only if the Vercel project’s Root Directory is set to that folder: `cd VMS/frontend && npx vercel --prod`.
 
 ---
 
