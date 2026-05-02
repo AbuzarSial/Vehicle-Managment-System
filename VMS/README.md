@@ -339,6 +339,8 @@ cd VMS/frontend && npm run build
 
 **404 on Vercel:** (a) **Dashboard overrides** — reset Build / Output / Install commands so **`vercel.json`** applies. (b) **Root Directory** — empty uses repo-root **`vercel.json`** + **`VMS/frontend/dist`**; **`VMS/frontend`** uses the inner **`vercel.json`** + **`dist`**. (c) **SPA deep links** — **`rewrites`** send non-file paths to **`/index.html`**. The repo root **`package.json`** defines **`npm run build`** → **`VMS/frontend`** so a default Vercel build also targets the right app. Redeploy after fixes.
 
+**White screen (blank page):** View page source (Ctrl+U). If you see **`<script type="module" src="/src/main.jsx">`**, Vercel is serving the **dev** `index.html`, not **`vite build`** output — the JS never loads. Fix: **Production Build** must run (**`npm run build`**), **Output Directory** must be **`dist`** (not `.` or repo root), **Root Directory** **`VMS/frontend`** (or empty + root **`vercel.json`**). In deployment **Build Logs**, confirm **`vite build`** completes and listing shows **`dist/index.html`** with **`/assets/*.js`** hashes.
+
 **CLI deploy (optional):** From the repo root, after `npx vercel login`: `npx vercel --prod` (uses root **`vercel.json`**). From **`VMS/frontend`** only if the Vercel project’s Root Directory is set to that folder: `cd VMS/frontend && npx vercel --prod`.
 
 ---
