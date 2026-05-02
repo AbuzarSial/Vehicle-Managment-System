@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd VMS/frontend && npm ci --include=dev",
+  "installCommand": "cd VMS/frontend && npm ci",
   "buildCommand": "cd VMS/frontend && npm run build",
   "outputDirectory": "VMS/frontend/dist",
   "trailingSlash": false,

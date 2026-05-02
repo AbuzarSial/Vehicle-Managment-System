@@ -325,11 +325,10 @@ cd VMS/frontend && npm run build
 2. **Backend:** Set **`DATABASE_URL=postgresql+psycopg://…`** in the environment where you run FastAPI (Railway, Render, Fly.io, a VPS, etc.). Vercel is optimized for static sites and serverless functions; this repo’s API is a normal ASGI app — host it where long-lived Python processes are supported.
 3. **CORS:** Set **`CORS_ALLOW_ORIGIN_REGEX`** to `https://.*\.vercel\.app` on the API so **every PR preview** and production deployment on `*.vercel.app` can call the backend. Alternatively (or additionally), list fixed origins in **`CORS_ALLOW_ORIGINS`**.
 4. **Frontend on Vercel:** In [Vercel](https://vercel.com) → **Add New…** → **Project** → import your GitHub repo **`Vehicle-Managment-System`** (or fork).
-   - **Root Directory:** Either leave it **empty** or set **`VMS/frontend`** (pick **one** and stick to it).
-     - **Empty:** Repo-root **`vercel.json`** runs **`cd VMS/frontend && npm ci --include=dev`** then **`npm run build`**, output **`VMS/frontend/dist`**, SPA **`rewrites`** included.
-     - **`VMS/frontend`:** Uses **`VMS/frontend/vercel.json` only** — **`npm ci --include=dev`**, **`npm run build`**, **`outputDirectory` `dist`** (no **`cd VMS/frontend`** here; Vercel cwd is already **`VMS/frontend`**).
+   - **Root Directory (recommended):** **`VMS/frontend`**. Vercel reads **`VMS/frontend/vercel.json`** only (`install` / `build` / **`dist`** / SPA rewrites). No **`cd VMS/frontend`** in that file.
+   - **Root Directory empty (advanced):** Copy **`vercel.repo-root.example.json`** to the repo root as **`vercel.json`**, then deploy (or set equivalent commands in the dashboard). There is **no** committed root **`vercel.json`** by default so it cannot override subdirectory settings.
    - **Node:** **`engines.node`** and **`.nvmrc`** request **Node 20+** (needed for a reliable Vite 7 / Tailwind v4 build on Vercel).
-   - **Framework Preset:** **Other** or leave default when Root Directory is **empty** (root **`vercel.json`** already defines install/build/output). When Root Directory is **`VMS/frontend`**, choose **Vite**.
+   - **Framework Preset:** **Vite** when Root Directory is **`VMS/frontend`** (matches **`framework`** in **`VMS/frontend/vercel.json`**). For empty-root deploys using the example file, **Other** is fine.
    - **Important:** Under Project → Settings → **Build & Development**, if **Build Command**, **Output Directory**, or **Install Command** were overridden manually, click **Reset** or align them with this repo — dashboard overrides beat **`vercel.json`** and often cause **404** (wrong folder deployed).
    - **Environment variables** (Project → Settings → Environment Variables):
      - **`VITE_API_BASE_URL`** = your public FastAPI origin, e.g. `https://your-api.onrender.com` (no trailing slash, no `/api` suffix). Apply to **Production**, **Preview**, and **Development** as needed so PR previews call the same API.
@@ -337,11 +336,11 @@ cd VMS/frontend && npm run build
    - Save and deploy. **Pull Request previews** are created automatically once the GitHub integration is enabled (each PR gets its own `*.vercel.app` URL).
 5. **Smoke-test:** Open the deployed URL, check browser DevTools → Network: API calls should go to **`VITE_API_BASE_URL`**. If you see CORS errors, confirm **`CORS_ALLOW_ORIGIN_REGEX`** or **`CORS_ALLOW_ORIGINS`** on the backend includes that frontend origin.
 
-**404 on Vercel:** (a) **Dashboard overrides** — reset Build / Output / Install commands so **`vercel.json`** applies. (b) **Root Directory** — empty uses repo-root **`vercel.json`** + **`VMS/frontend/dist`**; **`VMS/frontend`** uses the inner **`vercel.json`** + **`dist`**. (c) **SPA deep links** — **`rewrites`** send non-file paths to **`/index.html`**. The repo root **`package.json`** defines **`npm run build`** → **`VMS/frontend`** so a default Vercel build also targets the right app. Redeploy after fixes.
+**404 on Vercel:** (a) **Dashboard overrides** — reset Build / Output / Install so **`VMS/frontend/vercel.json`** applies. (b) **Root Directory** must be **`VMS/frontend`** for the default setup, or use the **repo-root example** file when Root is empty. (c) **SPA** — rewrites send unknown paths to **`/index.html`**. Redeploy after fixes.
 
-**White screen (blank page):** View page source (Ctrl+U). If you see **`<script type="module" src="/src/main.jsx">`**, the **production build did not become the deployment output** (raw repo `index.html` was served). Common causes: **Output Directory** not **`dist`**, **dashboard overrides**, or **`npm ci` skipping `devDependencies`** when `NODE_ENV=production` — then **`vite`** (a devDependency) is missing and the build cannot emit **`dist/`**. This repo’s **`vercel.json`** uses **`npm ci --include=dev`** so Vite and plugins install on Vercel. Confirm **Build Logs** show **`vite build`** success and View Source shows **`/assets/*.js`**, not **`/src/main.jsx`**.
+**White screen (blank page):** View page source (Ctrl+U). If you see **`/src/main.jsx`**, **`dist/`** was not deployed — fix **Output Directory** (**`dist`**) and ensure **`vite build`** runs (**Build Logs**). **Vite** and Tailwind build packages are **`dependencies`** so **`npm ci`** still installs them under production-style installs.
 
-**CLI deploy (optional):** From the repo root, after `npx vercel login`: `npx vercel --prod` (uses root **`vercel.json`**). From **`VMS/frontend`** only if the Vercel project’s Root Directory is set to that folder: `cd VMS/frontend && npx vercel --prod`.
+**CLI deploy (optional):** `cd VMS/frontend && npx vercel --prod` (project Root Directory **`VMS/frontend`**). For repo-root deploys, add **`vercel.json`** from **`vercel.repo-root.example.json`** first.
 
 ---
 
