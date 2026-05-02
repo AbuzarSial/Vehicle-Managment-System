@@ -1,12 +1,12 @@
 import React from 'react'
-import AppLayout from './components/layout/AppLayout'
+import { BrowserRouter } from 'react-router-dom'
 import AppRouter from './routes/AppRouter'
 import './index.css'
 
 export default function App() {
   return (
-    <AppLayout>
+    <BrowserRouter>
       <AppRouter />
-    </AppLayout>
+    </BrowserRouter>
   )
 }

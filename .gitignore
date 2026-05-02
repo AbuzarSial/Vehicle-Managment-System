@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+
+# Local secrets (examples stay in *.env.example)
+.env
+.env.local
