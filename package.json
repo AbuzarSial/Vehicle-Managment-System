@@ -2,6 +2,9 @@
   "name": "vehicle-management-system",
   "private": true,
   "description": "Monorepo root — frontend lives in VMS/frontend (Vite). Vercel reads vercel.json here when Root Directory is empty.",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "cd VMS/frontend && npm ci && npm run build"
   }

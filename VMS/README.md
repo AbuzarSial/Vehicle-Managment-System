@@ -325,9 +325,10 @@ cd VMS/frontend && npm run build
 2. **Backend:** Set **`DATABASE_URL=postgresql+psycopg://…`** in the environment where you run FastAPI (Railway, Render, Fly.io, a VPS, etc.). Vercel is optimized for static sites and serverless functions; this repo’s API is a normal ASGI app — host it where long-lived Python processes are supported.
 3. **CORS:** Set **`CORS_ALLOW_ORIGIN_REGEX`** to `https://.*\.vercel\.app` on the API so **every PR preview** and production deployment on `*.vercel.app` can call the backend. Alternatively (or additionally), list fixed origins in **`CORS_ALLOW_ORIGINS`**.
 4. **Frontend on Vercel:** In [Vercel](https://vercel.com) → **Add New…** → **Project** → import your GitHub repo **`Vehicle-Managment-System`** (or fork).
-   - **Root Directory:** Either leave it **empty** (recommended for fewer mistakes) or set **`VMS/frontend`**.
-     - **Empty:** Vercel uses the repo-root **`vercel.json`**, which installs/builds **`VMS/frontend`** and publishes **`VMS/frontend/dist`** (SPA rewrites included).
-     - **`VMS/frontend`:** Uses **`VMS/frontend/vercel.json`** (SPA fallback only); Vite preset supplies **`npm run build`** → **`dist`**.
+   - **Root Directory:** Either leave it **empty** or set **`VMS/frontend`** (pick **one** and stick to it).
+     - **Empty:** Repo-root **`vercel.json`** runs **`cd VMS/frontend && npm ci`** then **`npm run build`**, output **`VMS/frontend/dist`**, SPA **`rewrites`** included.
+     - **`VMS/frontend`:** Uses **`VMS/frontend/vercel.json`** with explicit **`npm ci`**, **`npm run build`**, **`dist`**, and SPA **`rewrites`** (does not rely on framework auto-detection alone).
+   - **Node:** **`engines.node`** and **`.nvmrc`** request **Node 20+** (needed for a reliable Vite 7 / Tailwind v4 build on Vercel).
    - **Framework Preset:** **Other** or leave default when Root Directory is **empty** (root **`vercel.json`** already defines install/build/output). When Root Directory is **`VMS/frontend`**, choose **Vite**.
    - **Important:** Under Project → Settings → **Build & Development**, if **Build Command**, **Output Directory**, or **Install Command** were overridden manually, click **Reset** or align them with this repo — dashboard overrides beat **`vercel.json`** and often cause **404** (wrong folder deployed).
    - **Environment variables** (Project → Settings → Environment Variables):
