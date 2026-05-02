@@ -147,17 +147,17 @@ export default function ReportsPage() {
           </p>
         ) : null}
 
-        <StatCards loading={summaryLoading} items={statItems} />
+        <StatCards items={statItems} />
 
         <div className="flex flex-wrap gap-3 text-sm">
           <Link
             to="/spare-parts"
-            className="font-medium text-indigo-600 hover:text-indigo-700"
+            className="font-medium text-blue-600 hover:text-blue-700"
           >
             Low-stock parts → Spare Parts
           </Link>
           <span className="text-slate-300">|</span>
-          <Link to="/bills" className="font-medium text-indigo-600 hover:text-indigo-700">
+          <Link to="/bills" className="font-medium text-blue-600 hover:text-blue-700">
             Bills
           </Link>
         </div>

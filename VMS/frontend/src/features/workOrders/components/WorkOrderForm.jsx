@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Button from '../../../components/ui/Button'
 import Input from '../../../components/ui/Input'
+import { WORK_ORDER_STATUS_OPTIONS } from '../constants'
 
 const empty = {
   inspection_id: '',
@@ -18,8 +19,6 @@ function validate(values) {
   return errors
 }
 
-export const WORK_ORDER_STATUS_OPTIONS = ['open', 'in_progress', 'completed', 'cancelled']
-
 export default function WorkOrderForm({
   mode = 'create',
   inspectionOptions = [],
@@ -33,7 +32,7 @@ export default function WorkOrderForm({
   const [fieldErrors, setFieldErrors] = useState({})
 
   const selectClass =
-    'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:opacity-60'
+    'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-60'
 
   useEffect(() => {
     if (mode === 'edit' && initialWorkOrder) {

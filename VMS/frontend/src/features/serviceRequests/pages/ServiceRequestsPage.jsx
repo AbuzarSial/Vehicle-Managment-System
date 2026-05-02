@@ -213,14 +213,14 @@ export default function ServiceRequestsPage() {
         </div>
       ) : null}
 
-      <div className="mb-6 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-3">
+      <div className="mb-6 grid gap-4 rounded-2xl border border-slate-200/90 bg-white p-5 shadow-md shadow-slate-900/[0.04] ring-1 ring-slate-900/[0.02] sm:grid-cols-3">
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-600" htmlFor="flt-v">
             Vehicle
           </label>
           <select
             id="flt-v"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-60"
             value={filterVehicleId}
             onChange={(e) => setFilterVehicleId(e.target.value)}
             disabled={requestsLoading}
@@ -239,7 +239,7 @@ export default function ServiceRequestsPage() {
           </label>
           <select
             id="flt-c"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-60"
             value={filterCenterId}
             onChange={(e) => setFilterCenterId(e.target.value)}
             disabled={requestsLoading}
@@ -258,7 +258,7 @@ export default function ServiceRequestsPage() {
           </label>
           <select
             id="flt-s"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-60"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
             disabled={requestsLoading}

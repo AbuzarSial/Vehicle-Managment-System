@@ -8,8 +8,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from decimal import Decimal
 
-from sqlalchemy import Date, DateTime, ForeignKey, Integer, Numeric, String, func, text
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, Integer, Numeric, String, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ...db.base import Base
@@ -20,13 +19,9 @@ class WorkOrder(Base):
 
     __tablename__ = "work_orders"
 
-    work_order_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    work_order_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     inspection_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("inspections.inspection_id", ondelete="RESTRICT"),
         nullable=False,
         unique=True,
@@ -51,12 +46,12 @@ class WorkOrderMechanic(Base):
     __tablename__ = "work_order_mechanics"
 
     work_order_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("work_orders.work_order_id", ondelete="CASCADE"),
         primary_key=True,
     )
     mechanic_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("mechanics.mechanic_id", ondelete="RESTRICT"),
         primary_key=True,
     )
@@ -78,12 +73,12 @@ class WorkOrderPart(Base):
     __tablename__ = "work_order_parts"
 
     work_order_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("work_orders.work_order_id", ondelete="CASCADE"),
         primary_key=True,
     )
     part_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("spare_parts.part_id", ondelete="RESTRICT"),
         primary_key=True,
     )

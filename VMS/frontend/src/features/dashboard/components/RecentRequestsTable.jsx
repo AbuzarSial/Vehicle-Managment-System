@@ -72,9 +72,9 @@ export default function RecentRequestsTable({
 
   return (
     <Card title={title} subtitle={subtitle ?? defaultSubtitle}>
-      <div className="overflow-x-auto rounded-lg border border-slate-100">
+      <div className="overflow-x-auto rounded-xl border border-slate-100/90 bg-slate-50/30">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs font-medium uppercase tracking-wide text-slate-500">
+          <thead className="border-b border-slate-100 bg-gradient-to-r from-slate-50 via-blue-50/20 to-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-600">
             <tr>
               <th className="px-4 py-3">ID</th>
               <th className="px-4 py-3">Date</th>
@@ -104,7 +104,7 @@ export default function RecentRequestsTable({
                 </td>
                 <td className="px-4 py-3 text-slate-600">{r.request_type ?? '—'}</td>
                 <td className="px-4 py-3">
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+                  <span className="rounded-lg bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-900 ring-1 ring-blue-700/10">
                     {rowStatus(r)}
                   </span>
                 </td>

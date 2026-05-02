@@ -306,7 +306,7 @@ export default function SparePartsPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
-              <thead className="border-b border-slate-200 text-xs font-medium uppercase text-slate-500">
+              <thead className="border-b border-slate-200 bg-gradient-to-r from-slate-50 via-blue-50/25 to-slate-100 text-xs font-semibold uppercase text-slate-600">
                 <tr>
                   <th className="py-2 pr-4">Center</th>
                   <th className="py-2 pr-4">Part</th>
@@ -380,7 +380,7 @@ export default function SparePartsPage() {
           </label>
           <select
             id="inv-center"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             value={centerId}
             onChange={(e) => setCenterId(e.target.value)}
             disabled={lookupsLoading}

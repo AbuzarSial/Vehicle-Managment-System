@@ -49,10 +49,10 @@ export default function CustomerTable({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-md shadow-slate-900/[0.04] ring-1 ring-slate-900/[0.02]">
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-          <thead className="bg-slate-50">
+          <thead className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50/25">
             <tr>
               <th className="px-4 py-3 font-medium text-slate-600">Name</th>
               <th className="px-4 py-3 font-medium text-slate-600">Phone</th>

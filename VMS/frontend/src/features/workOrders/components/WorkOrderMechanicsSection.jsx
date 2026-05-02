@@ -10,7 +10,7 @@ import {
 } from '../services/workOrderService'
 
 const selectClass =
-  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:opacity-60'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-60'
 
 export default function WorkOrderMechanicsSection({
   workOrderId,
@@ -102,7 +102,7 @@ export default function WorkOrderMechanicsSection({
 
       <div className="mb-4 overflow-hidden rounded-lg border border-slate-200 bg-white">
         <table className="min-w-full text-left text-sm">
-          <thead className="border-b border-slate-100 bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="border-b border-slate-100 bg-gradient-to-r from-slate-50 to-blue-50/20 text-xs font-semibold uppercase text-slate-600">
             <tr>
               <th className="px-3 py-2">Mechanic</th>
               <th className="px-3 py-2">Hours</th>

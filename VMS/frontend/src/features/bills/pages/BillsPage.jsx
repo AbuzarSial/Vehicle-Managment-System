@@ -209,7 +209,7 @@ export default function BillsPage() {
           </label>
           <select
             id="bill-filter-pay"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             value={filterPayment}
             onChange={(e) => setFilterPayment(e.target.value)}
           >

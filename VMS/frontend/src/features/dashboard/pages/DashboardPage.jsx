@@ -122,7 +122,7 @@ export default function DashboardPage() {
       />
 
       <div className="space-y-8">
-        <StatCards loading={summaryLoading} items={statItems} />
+        <StatCards items={statItems} />
 
         <RecentRequestsTable
           title="Recent service requests"

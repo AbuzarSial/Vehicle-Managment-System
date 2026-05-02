@@ -45,7 +45,7 @@ export default function PendingBillsPanel() {
         )
       }
       actions={
-        <Link to="/bills" className="text-xs font-medium text-indigo-600 hover:text-indigo-700">
+        <Link to="/bills" className="text-xs font-medium text-blue-600 hover:text-blue-700">
           View bills
         </Link>
       }

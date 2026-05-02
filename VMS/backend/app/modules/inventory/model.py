@@ -1,7 +1,6 @@
 """SQLAlchemy model for service_center_inventory."""
 
-from sqlalchemy import ForeignKey, Integer, String
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ...db.base import Base
@@ -13,12 +12,12 @@ class ServiceCenterInventory(Base):
     __tablename__ = "service_center_inventory"
 
     center_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("service_centers.center_id", ondelete="CASCADE"),
         primary_key=True,
     )
     part_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("spare_parts.part_id", ondelete="RESTRICT"),
         primary_key=True,
     )

@@ -8,8 +8,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-from sqlalchemy import Date, DateTime, ForeignKey, String, Text, text, func
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, String, Text, func, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ...db.base import Base
@@ -22,18 +21,14 @@ class ServiceRequest(Base):
 
     __tablename__ = "service_requests"
 
-    request_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    request_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     vehicle_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("vehicles.vehicle_id", ondelete="RESTRICT"),
         nullable=False,
     )
     center_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("service_centers.center_id", ondelete="RESTRICT"),
         nullable=False,
     )

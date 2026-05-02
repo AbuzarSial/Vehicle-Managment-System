@@ -259,7 +259,7 @@ export default function WorkOrdersPage() {
         </label>
         <select
           id="wo-filter-status"
-          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
         >

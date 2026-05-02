@@ -46,7 +46,7 @@ export default function LowStockPanel() {
       actions={
         <Link
           to="/spare-parts"
-          className="text-xs font-medium text-indigo-600 hover:text-indigo-700"
+          className="text-xs font-medium text-blue-600 hover:text-blue-700"
         >
           Manage inventory
         </Link>

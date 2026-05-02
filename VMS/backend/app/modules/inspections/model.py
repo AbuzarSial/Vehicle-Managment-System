@@ -8,8 +8,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-from sqlalchemy import Date, DateTime, ForeignKey, String, Text, func
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ...db.base import Base
@@ -20,19 +19,15 @@ class Inspection(Base):
 
     __tablename__ = "inspections"
 
-    inspection_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    inspection_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     request_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("service_requests.request_id", ondelete="RESTRICT"),
         nullable=False,
         unique=True,
     )
     mechanic_id: Mapped[int | None] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("mechanics.mechanic_id", ondelete="SET NULL"),
         nullable=True,
     )

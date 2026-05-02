@@ -18,7 +18,7 @@ export default function ReportFilters({
   onCenterChange,
 }) {
   return (
-    <div className="flex flex-wrap items-end gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="flex flex-wrap items-end gap-4 rounded-2xl border border-slate-200/90 bg-white p-5 shadow-md shadow-slate-900/[0.04] ring-1 ring-slate-900/[0.02]">
       <div className="min-w-[140px] flex-1">
         <label htmlFor="report-filter-status" className="block text-xs font-medium text-slate-600">
           Request status
@@ -27,7 +27,7 @@ export default function ReportFilters({
           id="report-filter-status"
           value={status}
           onChange={(e) => onStatusChange(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="">All statuses</option>
           {STATUS_OPTIONS.map((s) => (
@@ -45,7 +45,7 @@ export default function ReportFilters({
           id="report-filter-center"
           value={centerId}
           onChange={(e) => onCenterChange(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="">All centers</option>
           {centers.map((c) => (

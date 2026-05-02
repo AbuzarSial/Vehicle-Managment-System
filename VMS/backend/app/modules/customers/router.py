@@ -3,6 +3,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from ...db.session import get_db
@@ -62,6 +63,16 @@ def delete_customer(
     db: Annotated[Session, Depends(get_db)],
 ):
     """Delete a customer."""
-    deleted = service.delete_customer(db, customer_id)
+    try:
+        deleted = service.delete_customer(db, customer_id)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=(
+                "Cannot delete this customer while vehicles or other records still "
+                "reference them. Remove or reassign those vehicles first."
+            ),
+        )
     if not deleted:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found")

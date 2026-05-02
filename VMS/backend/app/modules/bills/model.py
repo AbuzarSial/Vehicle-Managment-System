@@ -9,8 +9,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from decimal import Decimal
 
-from sqlalchemy import Date, DateTime, ForeignKey, Numeric, String, func, text
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, Numeric, String, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ...db.base import Base
@@ -21,13 +20,9 @@ class Bill(Base):
 
     __tablename__ = "bills"
 
-    bill_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    bill_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     work_order_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("work_orders.work_order_id", ondelete="RESTRICT"),
         nullable=False,
         unique=True,

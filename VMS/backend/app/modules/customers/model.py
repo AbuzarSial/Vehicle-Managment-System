@@ -8,8 +8,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, String, func
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, DateTime, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ...db.base import Base
@@ -23,11 +22,7 @@ class Customer(Base):
 
     __tablename__ = "customers"
 
-    customer_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    customer_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     customer_name: Mapped[str] = mapped_column(String(255), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(32), nullable=True)
     email: Mapped[str | None] = mapped_column(String(255), nullable=True)

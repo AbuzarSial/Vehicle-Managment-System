@@ -8,8 +8,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, UniqueConstraint, func
-from sqlalchemy.dialects.mysql import BIGINT, SMALLINT
+from sqlalchemy import BigInteger, DateTime, ForeignKey, SmallInteger, String, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ...db.base import Base
@@ -25,13 +24,9 @@ class Vehicle(Base):
         UniqueConstraint("vin", name="uq_vehicles_vin"),
     )
 
-    vehicle_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    vehicle_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     customer_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("customers.customer_id", ondelete="RESTRICT"),
         nullable=False,
     )
@@ -39,7 +34,7 @@ class Vehicle(Base):
     vin: Mapped[str] = mapped_column(String(64), nullable=False)
     make: Mapped[str | None] = mapped_column(String(128), nullable=True)
     model: Mapped[str | None] = mapped_column(String(128), nullable=True)
-    model_year: Mapped[int | None] = mapped_column(SMALLINT(unsigned=True), nullable=True)
+    model_year: Mapped[int | None] = mapped_column(SmallInteger, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,

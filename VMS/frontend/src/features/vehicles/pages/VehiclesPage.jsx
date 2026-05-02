@@ -173,7 +173,7 @@ export default function VehiclesPage() {
           </label>
           <select
             id="vehicle-filter-customer"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             value={filterCustomerId}
             onChange={(e) => setFilterCustomerId(e.target.value)}
             disabled={vehiclesLoading}

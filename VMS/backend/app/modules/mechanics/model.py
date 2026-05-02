@@ -5,8 +5,7 @@ Matches database/schema/004_create_service_workflow_tables.sql.
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, func
-from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy import BigInteger, DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ...db.base import Base
@@ -17,13 +16,9 @@ class Mechanic(Base):
 
     __tablename__ = "mechanics"
 
-    mechanic_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
+    mechanic_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     center_id: Mapped[int] = mapped_column(
-        BIGINT(unsigned=True),
+        BigInteger,
         ForeignKey("service_centers.center_id", ondelete="RESTRICT"),
         nullable=False,
     )

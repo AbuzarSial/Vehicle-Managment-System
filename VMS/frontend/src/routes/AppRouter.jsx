@@ -15,12 +15,12 @@ import ReportsPage from '../features/reports/pages/ReportsPage'
 
 function NotFoundPage() {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-8 text-center">
+    <div className="rounded-2xl border border-slate-200/90 bg-white p-10 text-center shadow-lg shadow-slate-900/[0.06] ring-1 ring-slate-900/[0.03]">
       <p className="text-sm font-medium text-slate-900">Page not found</p>
       <p className="mt-1 text-sm text-slate-500">That route is not part of this app shell.</p>
       <Link
         to="/"
-        className="mt-4 inline-block text-sm font-medium text-indigo-600 hover:text-indigo-700"
+        className="mt-4 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
       >
         Go to dashboard
       </Link>
