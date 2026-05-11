@@ -2,9 +2,7 @@
 
 This folder contains raw MySQL SQL files to create the database schema, seed sample data, and provide report queries.
 
-**Hosted PostgreSQL (Neon):** use **`postgres/`** scripts instead — same logical model, Postgres/Neon-compatible DDL and seeds. See `postgres/README.md`.
-
-Run order (local MySQL):
+Run order:
 
 1. schema/001_create_database.sql
 2. schema/002_create_master_tables.sql

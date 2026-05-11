@@ -17,8 +17,7 @@ class Settings(BaseSettings):
     # Shown in FastAPI docs title
     APP_NAME: str = "Vehicle Service Management API"
 
-    # MySQL (local): mysql+pymysql://…/vms_db — see database/schema/
-    # Neon (Postgres): postgresql+psycopg://… ?sslmode=require — see database/postgres/
+    # MySQL: mysql+pymysql://…/vms_db — see database/schema/
     DATABASE_URL: str = "mysql+pymysql://user:password@localhost:3306/vms_db"
 
     # Comma-separated extra browser origins for CORS (e.g. https://your-app.vercel.app)

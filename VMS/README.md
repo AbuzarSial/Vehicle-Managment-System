@@ -1,6 +1,6 @@
 # Vehicle Service Management System (VMS)
 
-A full-stack application for managing vehicle service operations: customers, vehicles, service centers, mechanics, service requests, inspections, work orders (with labor and parts lines), spare-part inventory, and billing. The system is built as a **React SPA** talking to a **FastAPI** backend over **REST**. **MySQL** scripts target local development; **PostgreSQL** scripts under `database/postgres/` target **Neon** (or any Postgres host).
+A full-stack application for managing vehicle service operations: customers, vehicles, service centers, mechanics, service requests, inspections, work orders (with labor and parts lines), spare-part inventory, and billing. The system is built as a **React SPA** talking to a **FastAPI** backend over **REST**. The database is **MySQL** only — schema and seeds live under **`database/schema/`** and **`database/seed/`**.
 
 ---
 
@@ -18,7 +18,7 @@ A full-stack application for managing vehicle service operations: customers, veh
 10. [Naming: SQL, API, and UI](#naming-sql-api-and-ui)
 11. [Local setup (run everything)](#local-setup-run-everything)
 12. [Environment variables](#environment-variables)
-13. [Neon + Vercel (hosted database + SPA)](#neon--vercel-hosted-database--spa)
+13. [Hosted deployment (MySQL + Vercel SPA)](#hosted-deployment-mysql--vercel-spa)
 14. [Useful URLs](#useful-urls)
 15. [Further documentation](#further-documentation)
 16. [Demo data localization (Pakistan)](#demo-data-localization-pakistan)
@@ -68,9 +68,9 @@ In **production**, you typically serve the built static assets from a CDN or web
 | **Frontend** | React 19, React Router 6, Vite 7, Tailwind CSS 4 (`@tailwindcss/vite`) |
 | **Backend** | Python 3, FastAPI, Uvicorn, Pydantic / pydantic-settings |
 | **ORM** | SQLAlchemy 2.x |
-| **DB drivers** | PyMySQL (`mysql+pymysql://…`) locally; **psycopg** (`postgresql+psycopg://…`) for Neon/Postgres |
-| **Database** | MySQL 8.x / 9.x locally; **PostgreSQL** (e.g. Neon) for hosted |
-| **Schema** | Hand-written SQL: `database/schema/` (MySQL), `database/postgres/` (Postgres / Neon) |
+| **DB drivers** | PyMySQL (`mysql+pymysql://…`) |
+| **Database** | MySQL 8.x / 9.x |
+| **Schema** | Hand-written SQL under `database/schema/` and `database/seed/` |
 
 ---
 
@@ -97,7 +97,6 @@ VMS/
 │   └── .env.example
 ├── database/
 │   ├── schema/              # 001 … 007 SQL — MySQL (run in order)
-│   ├── postgres/            # Postgres / Neon DDL + seeds + README
 │   ├── seed/                # 001 … 005 sample data (run after schema)
 │   ├── docs/                # data_dictionary, EERD mapping notes
 │   └── README.md            # Schema/seed run order
@@ -305,7 +304,7 @@ cd VMS/frontend && npm run build
 
 | Variable | Meaning |
 |----------|---------|
-| `DATABASE_URL` | SQLAlchemy URL. **MySQL:** `mysql+pymysql://…` (see `database/schema/`). **Neon (Postgres):** `postgresql+psycopg://…?sslmode=require` (see `database/postgres/`). |
+| `DATABASE_URL` | SQLAlchemy URL: **`mysql+pymysql://…`** (see `database/schema/`). |
 | `APP_NAME` | Shown in OpenAPI title |
 | `CORS_ALLOW_ORIGINS` | Optional comma-separated extra origins (e.g. `https://your-app.vercel.app`) merged with local Vite defaults |
 | `CORS_ALLOW_ORIGIN_REGEX` | Optional single regex (e.g. `https://.*\.vercel\.app`) so every Vercel preview URL is allowed without listing each PR |
@@ -319,12 +318,12 @@ cd VMS/frontend && npm run build
 
 ---
 
-## Neon + Vercel (hosted database + SPA)
+## Hosted deployment (MySQL + Vercel SPA)
 
-1. **Neon:** Create a Postgres database and run the scripts in **`database/postgres/`** in order (DDL `002`–`007`, then `seed_*`, then **`008_align_sequences.sql`**). Copy the pooled connection string with **`sslmode=require`**.
-2. **Backend:** Set **`DATABASE_URL=postgresql+psycopg://…`** in the environment where you run FastAPI (Railway, Render, Fly.io, a VPS, etc.). Vercel is optimized for static sites and serverless functions; this repo’s API is a normal ASGI app — host it where long-lived Python processes are supported.
+1. **Database:** Provision **MySQL** 8.x (managed host e.g. PlanetScale, AWS RDS, Railway MySQL, DigitalOcean). Load **`database/schema/`** then **`database/seed/`** in the order documented in **`database/README.md`** (same scripts as local development).
+2. **Backend:** Set **`DATABASE_URL=mysql+pymysql://USER:PASSWORD@HOST:3306/vms_db`** in the environment where you run FastAPI (Railway, Render, Fly.io, a VPS, etc.). Vercel is optimized for static sites; host the API where long-lived Python processes are supported.
 3. **CORS:** Set **`CORS_ALLOW_ORIGIN_REGEX`** to `https://.*\.vercel\.app` on the API so **every PR preview** and production deployment on `*.vercel.app` can call the backend. Alternatively (or additionally), list fixed origins in **`CORS_ALLOW_ORIGINS`**.
-4. **Frontend on Vercel:** In [Vercel](https://vercel.com) → **Add New…** → **Project** → import your GitHub repo **`Vehicle-Managment-System`** (or fork).
+4. **Frontend on Vercel:** In [Vercel](https://vercel.com) → **Add New…** → **Project** → import your GitHub repo.
    - **Root Directory (recommended):** **`VMS/frontend`**. Vercel reads **`VMS/frontend/vercel.json`** only (`install` / `build` / **`dist`** / SPA rewrites). No **`cd VMS/frontend`** in that file.
    - **Root Directory empty (advanced):** Copy **`vercel.repo-root.example.json`** to the repo root as **`vercel.json`**, then deploy (or set equivalent commands in the dashboard). There is **no** committed root **`vercel.json`** by default so it cannot override subdirectory settings.
    - **Node:** **`engines.node`** and **`.nvmrc`** request **Node 20+** (needed for a reliable Vite 7 / Tailwind v4 build on Vercel).
