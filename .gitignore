@@ -1,6 +1,23 @@
 .DS_Store
+**/.DS_Store
 node_modules/
+**/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+**/.venv/
+venv/
+ENV/
+
+# Builds / frontend
+dist/
+**/dist/
 
 # Local secrets (examples stay in *.env.example)
 .env
 .env.local
+.env.*.local

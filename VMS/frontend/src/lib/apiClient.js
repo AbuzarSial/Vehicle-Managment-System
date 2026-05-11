@@ -3,11 +3,19 @@
  * Base URL: VITE_API_BASE_URL (see .env.example).
  */
 
+/**
+ * API origin for fetch().
+ * - Dev: default is same-origin (empty) so requests go to `/api/...` on whatever host you use
+ *   (`http://localhost:5173` or `http://127.0.0.1:5173`). Avoids cross-origin issues when the
+ *   tab is localhost but VITE_API_BASE_URL pointed at 127.0.0.1 (or vice versa).
+ * - Production: set VITE_API_BASE_URL to your deployed FastAPI origin (https://...).
+ */
 function getBaseUrl() {
   const raw = import.meta.env.VITE_API_BASE_URL
-  const base =
-    typeof raw === 'string' && raw.trim() !== '' ? raw.trim() : 'http://127.0.0.1:5173'
-  return base.replace(/\/$/, '')
+  if (raw === undefined || raw === null) return ''
+  const s = String(raw).trim()
+  if (s === '') return ''
+  return s.replace(/\/$/, '')
 }
 
 export class ApiError extends Error {

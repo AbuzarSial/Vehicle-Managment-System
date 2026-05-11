@@ -1,7 +1,7 @@
 {
   "name": "vehicle-management-system",
   "private": true,
-  "description": "Monorepo root — frontend lives in VMS/frontend (Vite). Vercel reads vercel.json here when Root Directory is empty.",
+  "description": "Monorepo root — frontend is VMS/frontend (Vite). On Vercel, set Root Directory to VMS/frontend and use VMS/frontend/vercel.json; for empty root, copy vercel.repo-root.example.json to vercel.json.",
   "engines": {
     "node": ">=20"
   },

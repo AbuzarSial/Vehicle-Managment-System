@@ -187,7 +187,7 @@ Global endpoints:
 ### API access
 
 - **`src/lib/apiClient.js`**: Builds URLs from **`VITE_API_BASE_URL`** + path (e.g. `/api/v1/customers`). Handles JSON, errors, and **`ApiError`**.
-- **Development:** **`vite.config.js`** proxies **`/api`** to **`http://127.0.0.1:8000`**. Recommended **`VITE_API_BASE_URL=http://127.0.0.1:5173`** so the browser calls the same origin and avoids CORS pitfalls when the API returns errors.
+- **Development:** **`vite.config.js`** proxies **`/api`** to **`http://127.0.0.1:8000`**. Omit **`VITE_API_BASE_URL`** (or leave empty) so requests stay **same-origin** (`/api/...` on `localhost` or `127.0.0.1` — avoids mismatched host issues). Alternatively point **`VITE_API_BASE_URL`** at **`http://127.0.0.1:8000`** for direct API calls (enable CORS).
 - **Production build:** Point **`VITE_API_BASE_URL`** at the real API origin and ensure CORS on the backend allows your deployment origin.
 
 ### Feature folders
@@ -313,7 +313,7 @@ cd VMS/frontend && npm run build
 
 | Variable | Meaning |
 |----------|---------|
-| `VITE_API_BASE_URL` | Origin for API calls (no trailing slash). Dev + proxy: `http://127.0.0.1:5173`. Direct API: `http://127.0.0.1:8000`. Production: your deployed FastAPI origin (`https://…`). |
+| `VITE_API_BASE_URL` | Optional origin for API calls (no trailing slash). **Dev:** omit or empty for same-origin `/api` proxy. **Direct API:** `http://127.0.0.1:8000`. **Production:** your deployed FastAPI origin (`https://…`). |
 | `VITE_APP_NAME` | Optional label for UI |
 
 ---
