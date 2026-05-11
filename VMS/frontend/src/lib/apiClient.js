@@ -4,7 +4,9 @@
  */
 
 function getBaseUrl() {
-  const base = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:5173'
+  const raw = import.meta.env.VITE_API_BASE_URL
+  const base =
+    typeof raw === 'string' && raw.trim() !== '' ? raw.trim() : 'http://127.0.0.1:5173'
   return base.replace(/\/$/, '')
 }
 
@@ -54,7 +56,19 @@ export async function apiRequest(method, path, opts = {}) {
     init.body = JSON.stringify(opts.body)
   }
 
-  const res = await fetch(url, init)
+  let res
+  try {
+    res = await fetch(url, init)
+  } catch (err) {
+    const msg =
+      err instanceof Error ? err.message : 'Network request failed'
+    throw new ApiError(
+      `Cannot reach API (${msg}). Start the backend on port 8000 and ensure VITE_API_BASE_URL matches your dev setup.`,
+      0,
+      null,
+    )
+  }
+
   const text = await res.text()
   let data = null
   if (text) {
