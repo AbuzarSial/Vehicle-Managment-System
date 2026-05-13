@@ -48,5 +48,6 @@ CREATE TABLE IF NOT EXISTS spare_parts (
   brand VARCHAR(128) DEFAULT NULL,
   unit_price DECIMAL(12,2) NOT NULL DEFAULT 0.00,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (part_id)
+  PRIMARY KEY (part_id),
+  CONSTRAINT ck_spare_parts_unit_price_nonneg CHECK (unit_price >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

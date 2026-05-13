@@ -10,6 +10,18 @@
 --   Customer flow: service_request -> inspection (1:1 via UNIQUE request_id)
 --                  inspection -> work_order (1:1 via UNIQUE inspection_id)
 --
+-- ON DELETE policy:
+--   mechanics -> service_centers RESTRICT — cannot delete a center that still
+--     employs mechanics; reassign or delete mechanics first.
+--   service_requests -> vehicles / service_centers RESTRICT — keeps audit trail;
+--     delete or archive requests before removing the vehicle or center.
+--   inspections -> service_requests RESTRICT — inspection is tied to a request;
+--     remove inspection before deleting the request (or use app workflow).
+--   inspections -> mechanics SET NULL — mechanic row may be retired while
+--     keeping the inspection record (optional assignee cleared).
+--   work_orders -> inspections RESTRICT — work order is the billing/labor anchor;
+--     do not delete inspection until work order is removed or completed per policy.
+--
 -- Next: 005_create_inventory_billing_tables.sql
 -- =============================================================================
 
