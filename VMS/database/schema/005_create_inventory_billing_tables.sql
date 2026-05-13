@@ -9,6 +9,17 @@
 -- Junction tables use composite PRIMARY KEY (parent ids).
 -- bills: one row per work_order (UNIQUE work_order_id).
 --
+-- ON DELETE policy:
+--   service_center_inventory.center_id -> service_centers CASCADE — removing a
+--     center should clear its shelf/stock rows; parts catalog (part_id) stays
+--     RESTRICT so catalog rows are not deleted while still referenced.
+--   work_order_mechanics / work_order_parts -> work_orders CASCADE — deleting a
+--     work order removes its labor and parts line items (detail rows only).
+--   work_order_mechanics.mechanic_id / work_order_parts.part_id -> RESTRICT —
+--     mechanics and catalog parts cannot be deleted if still referenced on lines.
+--   bills -> work_orders RESTRICT — a bill must be voided/deleted before the
+--     work order can be removed (financial record integrity).
+--
 -- Next (optional): 006_constraints_and_indexes.sql, 007_views.sql
 -- =============================================================================
 
@@ -29,7 +40,9 @@ CREATE TABLE IF NOT EXISTS service_center_inventory (
     ON DELETE CASCADE,
   CONSTRAINT fk_sci_part FOREIGN KEY (part_id)
     REFERENCES spare_parts (part_id)
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  CONSTRAINT ck_sci_qty_on_hand_nonneg CHECK (quantity_on_hand >= 0),
+  CONSTRAINT ck_sci_reorder_nonneg CHECK (reorder_level >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------
@@ -46,7 +59,9 @@ CREATE TABLE IF NOT EXISTS work_order_mechanics (
     ON DELETE CASCADE,
   CONSTRAINT fk_wom_mechanic FOREIGN KEY (mechanic_id)
     REFERENCES mechanics (mechanic_id)
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  CONSTRAINT ck_wom_hours_nonneg CHECK (hours_worked >= 0),
+  CONSTRAINT ck_wom_labor_rate_nonneg CHECK (labor_rate >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------
@@ -63,7 +78,9 @@ CREATE TABLE IF NOT EXISTS work_order_parts (
     ON DELETE CASCADE,
   CONSTRAINT fk_wop_part FOREIGN KEY (part_id)
     REFERENCES spare_parts (part_id)
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  CONSTRAINT ck_wop_qty_nonneg CHECK (quantity_used >= 0),
+  CONSTRAINT ck_wop_sale_price_nonneg CHECK (sale_price_at_use >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------
@@ -80,5 +97,6 @@ CREATE TABLE IF NOT EXISTS bills (
   UNIQUE KEY uq_bills_work_order (work_order_id),
   CONSTRAINT fk_bills_work_order FOREIGN KEY (work_order_id)
     REFERENCES work_orders (work_order_id)
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  CONSTRAINT ck_bills_total_nonneg CHECK (total_amount >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

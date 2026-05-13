@@ -8,7 +8,12 @@ from .core.config import settings
 
 app = FastAPI(title=settings.APP_NAME)
 
-_default_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+_default_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    # Production SPA (Vercel) — also set CORS_ALLOW_ORIGINS on Render if you add more frontends
+    "https://vehicle-managment-system-mu.vercel.app",
+]
 _extra = [o.strip() for o in settings.CORS_ALLOW_ORIGINS.split(",") if o.strip()]
 _allow_origins = _default_origins + _extra
 _cors_regex = (settings.CORS_ALLOW_ORIGIN_REGEX or "").strip() or None
