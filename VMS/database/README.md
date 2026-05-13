@@ -2,6 +2,8 @@
 
 This folder contains raw MySQL SQL files to create the database schema, seed sample data, and provide report queries.
 
+**Step-by-step workflow (Roman Urdu + diagrams):** see **[README_WORKFLOW.md](README_WORKFLOW.md)** — explains why scripts run in order, table relationships, seeds, and how queries/views fit together.
+
 Run order:
 
 1. schema/001_create_database.sql

@@ -4,5 +4,17 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  appType: 'spa',
+  base: '/',
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  },
+  plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      // Same-origin /api in dev avoids browser CORS when the API returns 5xx without CORS headers.
+      '/api': { target: 'http://127.0.0.1:8000', changeOrigin: true },
+    },
+  },
 })
