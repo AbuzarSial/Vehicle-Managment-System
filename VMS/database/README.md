@@ -2,6 +2,8 @@
 
 This folder contains raw MySQL SQL files to create the database schema, seed sample data, and provide report queries.
 
+**Hosted / managed MySQL (Aiven, Railway, etc.):** see **[DEPLOYMENT.md](DEPLOYMENT.md)** — import order, `mysql` CLI, `DATABASE_URL`, and when to skip `001_create_database.sql`.
+
 **Step-by-step workflow (Roman Urdu + diagrams):** see **[README_WORKFLOW.md](README_WORKFLOW.md)** — explains why scripts run in order, table relationships, seeds, and how queries/views fit together.
 
 Run order:
@@ -15,6 +17,17 @@ Run order:
 7. schema/007_views.sql
 
 Then run seed files in `database/seed/` in numeric order.
+
+### Managed MySQL (Aiven, Railway, RDS, etc.)
+
+Many hosts **do not grant `CREATE DATABASE`** to the application user. In that case:
+
+1. **Create an empty database named `vms_db`** using the provider’s dashboard (or their CLI), with **utf8mb4** if you can choose charset/collation.
+2. **Skip `schema/001_create_database.sql`** — it would fail or be ignored without superuser rights.
+3. Run **`002` through `007`** against `vms_db` (see **`DEPLOYMENT.md`** for exact `mysql` CLI examples). Every later script contains `USE vms_db;` so the session targets the correct database.
+4. If the provider **only** gives you a fixed database name (e.g. `railway` / `defaultdb`) and you **cannot** rename it, either create a logical database `vms_db` inside the service if supported, or replace `USE vms_db;` in each file with `USE your_actual_dbname;` before import (do **not** change table names).
+
+Seeds assume **empty tables** or a fresh `vms_db`; reloading seeds on a dirty DB can hit **duplicate primary keys** or FK order issues — use a new database or truncate children in reverse FK order first.
 
 Then run **routines** (stored programs) in numeric order — **after** schema and seeds so tables, views, and demo data exist:
 
