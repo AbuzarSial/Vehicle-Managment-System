@@ -3,5 +3,11 @@
   "installCommand": "npm ci --prefix VMS/frontend",
   "buildCommand": "npm run build --prefix VMS/frontend",
   "outputDirectory": "VMS/frontend/dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://vehicle-managment-system-qgt2.onrender.com/api/$1"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

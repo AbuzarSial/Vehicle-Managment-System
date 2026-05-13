@@ -4,5 +4,11 @@
   "buildCommand": "npm run build --prefix VMS/frontend",
   "outputDirectory": "VMS/frontend/dist",
   "trailingSlash": false,
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://YOUR-RENDER-HOST.onrender.com/api/$1"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
